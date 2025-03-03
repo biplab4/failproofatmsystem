@@ -1,5 +1,5 @@
 import unittest
-from atm_system import ATM
+from src.logic import ATM
 
 class TestATM(unittest.TestCase):
     def setUp(self):
