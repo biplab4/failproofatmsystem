@@ -1,22 +1,14 @@
+# atm_system.py
+
 class ATM:
-    def __init__(self, pin, balance):
-        self.correct_pin = pin
+    def __init__(self, balance=5000):
         self.balance = balance
 
-    def authenticate(self, entered_pin):
-        """Check if the entered PIN is correct"""
-        return entered_pin == self.correct_pin
-
-    def check_balance(self):
-        """Return current balance"""
-        return self.balance
-
     def withdraw(self, amount):
-        """Withdraw money if sufficient balance"""
+        if amount <= 0:
+            return "❌ Invalid amount! Enter a positive number."
         if amount > self.balance:
-            return "Insufficient balance!"
-        elif amount <= 0:
-            return "Invalid amount!"
-        else:
-            self.balance -= amount
-            return f"Withdrawal successful! New balance: ${self.balance}"
+            return "❌ Insufficient funds! Try a lower amount."
+        
+        self.balance -= amount
+        return f"✅ Withdrawal successful! Remaining balance: ${self.balance}"
