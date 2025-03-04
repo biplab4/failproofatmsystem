@@ -3,29 +3,21 @@ from src.logic import ATM
 
 class TestATM(unittest.TestCase):
     def setUp(self):
-        """Set up an ATM instance before each test"""
-        self.atm = ATM(pin="1234", balance=5000)
+        """Create an ATM instance before each test"""
+        self.atm = ATM(5000)
 
-    def test_authentication_correct_pin(self):
-        self.assertTrue(self.atm.authenticate("1234"))
+    def test_valid_withdrawal(self):
+        """Test withdrawing a valid amount"""
+        self.assertEqual(self.atm.withdraw(1000), "✅ Withdrawal successful! Remaining balance: $4000")
 
-    def test_authentication_wrong_pin(self):
-        self.assertFalse(self.atm.authenticate("0000"))
+    def test_insufficient_funds(self):
+        """Test withdrawing more than available balance"""
+        self.assertEqual(self.atm.withdraw(6000), "❌ Insufficient funds! Try a lower amount.")
 
-    def test_check_balance(self):
-        self.assertEqual(self.atm.check_balance(), 5000)
+    def test_negative_or_zero_withdrawal(self):
+        """Test withdrawing a negative or zero amount"""
+        self.assertEqual(self.atm.withdraw(0), "❌ Invalid amount! Enter a positive number.")
+        self.assertEqual(self.atm.withdraw(-500), "❌ Invalid amount! Enter a positive number.")
 
-    def test_successful_withdrawal(self):
-        result = self.atm.withdraw(1000)
-        self.assertEqual(result, "Withdrawal successful! New balance: $4000")
-
-    def test_insufficient_balance(self):
-        result = self.atm.withdraw(6000)
-        self.assertEqual(result, "Insufficient balance!")
-
-    def test_invalid_withdrawal(self):
-        result = self.atm.withdraw(-500)
-        self.assertEqual(result, "Invalid amount!")
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
